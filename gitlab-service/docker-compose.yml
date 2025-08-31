@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+  mysql:
+    container_name: mysql-local
+    image: mysql:8.0.28
+    ports:
+      - "3306:3306"
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=gitlab_service
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
