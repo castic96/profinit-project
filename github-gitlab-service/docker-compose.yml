@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres-local
+    hostname: postgres-local
+    ports:
+      - "5437:5432"
+    environment:
+      POSTGRES_DB: "github_gitlab_service"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    volumes:
+        - github-gitlab-data:/var/lib/postgresql/data
+
+volumes:
+  github-gitlab-data:

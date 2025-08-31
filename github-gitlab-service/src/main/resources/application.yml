@@ -1,0 +1,20 @@
+server:
+  port: 8087
+
+spring:
+  application:
+    name: github-gitlab-service
+  datasource:
+    url: jdbc:postgresql://localhost:5437/github_gitlab_service
+    driverClassName: org.postgresql.Driver
+    username: "postgres"
+    password: "postgres"
+  jpa:
+    hibernate:
+      ddl-auto: none
+  liquibase:
+    change-log: classpath:db/changelog/main.xml
+
+logging:
+  level:
+    eu.profinit.githubgitlabservice: debug
