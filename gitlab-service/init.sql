@@ -1,6 +1,6 @@
-CREATE SCHEMA IF NOT EXISTS gitlab_service
+CREATE SCHEMA IF NOT EXISTS gitlab_service;
 
-USE gitlab_service
+USE gitlab_service;
 
 create table if not exists gitlab_service.gitlab_user
 (
