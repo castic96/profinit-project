@@ -1,0 +1,38 @@
+openapi: 3.0.3
+
+info:
+  title: Github Gitlab Service API
+  description: Github Gitlab Service API specification
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8087/api
+    description: Local server
+
+paths:
+
+  /users/{username}:
+
+    get:
+      summary: Fetch user with projects.
+      parameters:
+        - name: username
+          in: path
+          required: true
+          description: Username to fetch
+          schema:
+            type: string
+      operationId: getUserByUsername
+      description: Returns user with projects.
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
+
