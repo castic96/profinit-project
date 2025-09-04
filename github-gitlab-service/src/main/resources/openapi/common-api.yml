@@ -2,7 +2,7 @@ openapi: 3.0.3
 
 info:
   title: Github Gitlab Service API
-  description: Github Gitlab Service API specification
+  description: Service to fetch user info and repositories from GitHub and GitLab
   version: 1.0.0
 
 servers:
@@ -11,28 +11,102 @@ servers:
 
 paths:
 
-  /users/{username}:
+  /users/{user}:
 
     get:
-      summary: Fetch user with projects.
-      parameters:
-        - name: username
-          in: path
-          required: true
-          description: Username to fetch
-          schema:
-            type: string
+      summary: Get user with repositories.
       operationId: getUserByUsername
-      description: Returns user with projects.
+      description: Returns user with repositories.
+      parameters:
+        - $ref: '#/components/parameters/UserRequestParameters'
       responses:
-        '200':
-          description: Successful operation
+        200:
+          description: User with repositories has been fetched successfully.
           content:
             application/json:
               schema:
-                type: object
-        '400':
-          description: Invalid username supplied
-        '404':
-          description: User not found
+                $ref: '#/components/schemas/UserResponse'
+        404:
+          $ref: '#/components/responses/NotFound'
+        5XX:
+          $ref: '#/components/responses/UnexpectedError'
 
+components:
+
+  parameters:
+
+    UserRequestParameters:
+      name: user
+      in: path
+      required: true
+      description: User to fetch by username.
+      schema:
+        type: string
+        description: Username.
+
+  schemas:
+
+    UserResponse:
+      type: object
+      description: Array of all events.
+      properties:
+        github:
+          $ref: '#/components/schemas/GitProperties'
+        gitlab:
+          $ref: '#/components/schemas/GitProperties'
+
+    GitProperties:
+      type: object
+      description: Git properties.
+      properties:
+        id:
+          type: string
+          description: User ID.
+        username:
+          type: string
+          description: Username of the git user.
+        repositories:
+          type: array
+          description: List of git repositories for the user.
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Repository ID.
+              name:
+                type: string
+                description: Repository name.
+            required:
+              - id
+              - name
+      required:
+        - id
+        - username
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - code
+        - message
+
+  responses:
+
+    NotFound:
+      description: "Resource not found."
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    UnexpectedError:
+      description: "Unexpected Error."
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
