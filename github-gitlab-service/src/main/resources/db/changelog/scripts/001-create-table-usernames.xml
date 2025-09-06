@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
+
+    <changeSet id="scripts/001-create-table-usernames" author="Zdenek Castoral">
+
+        <createTable tableName="usernames">
+
+            <column name="id" type="bigserial" autoIncrement="true">
+                <constraints
+                        primaryKey="true"
+                        primaryKeyName="PK__usernames__id"
+                        nullable="false"
+                />
+            </column>
+
+            <column name="name" type="varchar(255)">
+                <constraints
+                        nullable="false"
+                        unique="true"
+                        uniqueConstraintName="UQ__usernames__name"
+                />
+            </column>
+
+            <column name="_created_at" type="timestamp" defaultValueDate="current_timestamp"/>
+
+        </createTable>
+
+        <createIndex tableName="usernames" indexName="IX__usernames__name">
+            <column name="name"/>
+        </createIndex>
+
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
+
+    <changeSet id="scripts/003-create-table-users" author="Zdenek Castoral">
+
+        <createTable tableName="users">
+
+            <column name="id" type="bigserial" autoIncrement="true">
+                <constraints
+                        primaryKey="true"
+                        primaryKeyName="PK__users__id"
+                        nullable="false"
+                />
+            </column>
+
+            <column name="username_id" type="bigserial">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="source_id" type="bigserial">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="name" type="varchar(255)"/>
+
+            <column name="url" type="varchar(255)"/>
+
+            <column name="last_update" type="timestamp"/>
+
+            <column name="_created_at" type="timestamp" defaultValueDate="current_timestamp"/>
+
+        </createTable>
+
+        <addForeignKeyConstraint
+                constraintName="FK__users__username_id"
+                baseTableName="users"
+                baseColumnNames="username_id"
+                referencedTableName="usernames"
+                referencedColumnNames="id"
+        />
+
+        <addForeignKeyConstraint
+                constraintName="FK__users__source_id"
+                baseTableName="users"
+                baseColumnNames="source_id"
+                referencedTableName="sources"
+                referencedColumnNames="id"
+        />
+
+        <addUniqueConstraint
+                tableName="users"
+                columnNames="username_id, source_id"
+                constraintName="UQ__users__username_id_source_id"
+        />
+
+    </changeSet>
+
+</databaseChangeLog>

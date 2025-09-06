@@ -5,15 +5,15 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
 
-    <changeSet id="scripts/002-projects" author="Zdenek Castoral">
+    <changeSet id="scripts/005-insert-into-sources" author="Zdenek Castoral">
 
-        <createTable tableName="projects">
+        <insert tableName="sources">
+            <column name="name" value="github"/>
+        </insert>
 
-            <column name="id" type="bigserial" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-
-        </createTable>
+        <insert tableName="sources">
+            <column name="name" value="gitlab"/>
+        </insert>
 
     </changeSet>
 
