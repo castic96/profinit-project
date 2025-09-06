@@ -5,14 +5,14 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
 
-    <changeSet id="scripts/004-create-table-repositories" author="Zdenek Castoral">
+    <changeSet id="scripts/004-create-table-projects" author="Zdenek Castoral">
 
-        <createTable tableName="repositories">
+        <createTable tableName="projects">
 
             <column name="id" type="bigserial" autoIncrement="true">
                 <constraints
                         primaryKey="true"
-                        primaryKeyName="PK__repositories__id"
+                        primaryKeyName="PK__projects__id"
                         nullable="false"
                 />
             </column>
@@ -32,8 +32,8 @@
         </createTable>
 
         <addForeignKeyConstraint
-                constraintName="FK__repositories__user_id"
-                baseTableName="repositories"
+                constraintName="FK__projects__user_id"
+                baseTableName="projects"
                 baseColumnNames="user_id"
                 referencedTableName="users"
                 referencedColumnNames="id"
