@@ -18,3 +18,17 @@ spring:
 logging:
   level:
     eu.profinit.githubgitlabservice: debug
+
+openapi:
+  base-path: /api/
+
+git:
+  gitlab:
+    base-url: http://localhost:8086
+    accept: application/json
+  github:
+    base-url: https://api.github.com
+    accept: application/vnd.github+json
+
+cache:
+    ttl-seconds: 60
