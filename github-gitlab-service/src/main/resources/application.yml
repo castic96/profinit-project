@@ -12,8 +12,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+    open-in-view: false
   liquibase:
     change-log: classpath:db/changelog/main.xml
+  mustache:
+    check-template-location: false
 
 logging:
   level:
