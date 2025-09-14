@@ -15,6 +15,11 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Default implementation of the UserService interface.
+ * This service retrieves user information from various Git-based services (e.g., GitHub, GitLab)
+ * and maps it to a unified response format.
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -35,6 +40,7 @@ public class DefaultUserService implements UserService {
     private Map<SourceEnum, GitUserWithProjects> processSources(String username) {
         Map<SourceEnum, GitUserWithProjects> users = new EnumMap<>(SourceEnum.class);
 
+        // Iterate over all sources and attempt to retrieve the user from each
         Arrays.stream(SourceEnum.values()).forEach(source -> {
             Optional<GitUserWithProjects> user = processSource(username, source);
 
@@ -47,6 +53,7 @@ public class DefaultUserService implements UserService {
     private Optional<GitUserWithProjects> processSource(String username, SourceEnum source) {
         log.info("Trying to get user {} from source: {}", username, source.toString());
 
+        // Retrieve user from the database service for the given source
         return databaseService.getUserForSource(username, source);
     }
 

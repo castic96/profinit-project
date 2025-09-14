@@ -6,6 +6,9 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+/**
+ * Entity representing a Source (e.g., GitHub, GitLab).
+ */
 @Entity
 @Table(name = "sources")
 @Data

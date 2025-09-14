@@ -18,6 +18,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Client for interacting with the GitHub API.
+ */
 @Slf4j
 @RequiredArgsConstructor
 public class GitHubApiClient implements GitApiClient {
@@ -32,18 +35,18 @@ public class GitHubApiClient implements GitApiClient {
     public Optional<GitUserWithProjects> getUserWithProjects(String username) {
         log.info("Getting user with projects for user with username '{}' from GitHub.", username);
 
-        // 1) fetch user
+        // Fetch user
         GitHubResponseDto user = getGitHubUser(username);
 
         if (user == null) {
             return Optional.empty();
         }
 
-        // 2) fetch projects
+        // Fetch projects
         List<GitHubProjectResponseDto> projects = getGitHubProjects(username);
         user.setProjects(projects);
 
-        // 3) map to an internal model
+        // Map to an internal model
         return Optional.of(userMapper.gitHubUserToInternal(user));
     }
 

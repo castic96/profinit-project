@@ -22,6 +22,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Default implementation of the DatabaseService interface.
+ * This service handles database operations related to users, projects, and sources.
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -49,6 +53,7 @@ public class DefaultDatabaseService implements DatabaseService {
     public Username getUsername(String username) {
         Optional<Username> usernameEntity = usernameRepository.findByName(username);
 
+        // If the username does not exist, create a new one
         if (usernameEntity.isEmpty()) {
             log.info("Username entity not found in the database for username: {}", username);
             return createNewUsernameEntity(username);
@@ -79,19 +84,24 @@ public class DefaultDatabaseService implements DatabaseService {
         log.info("Saving user entity to database for username: {} and source: {}",
                 userEntity.getUsername().getName(), userEntity.getSource().getName());
 
+        // Map basic user details
         userMapper.internalToEntity(gitUserWithProjects, userEntity);
 
+        // Map and save projects
         saveProjects(gitUserWithProjects, userEntity);
 
         userRepository.save(userEntity);
     }
 
     private void saveProjects(GitUserWithProjects gitUserWithProjects, User userEntity) {
+
+        // Create a map of existing projects for easy lookup
         Map<Long, Project> existingProjects = userEntity.getProjects().stream()
                 .collect(Collectors.toMap(Project::getGitId, p -> p));
 
         List<Project> updatedProjects = new ArrayList<>();
 
+        // Update existing projects and add new ones
         gitUserWithProjects.getProjects().forEach(gitProject -> {
             Project project = existingProjects.getOrDefault(gitProject.getGitId(), new Project());
 
@@ -99,11 +109,13 @@ public class DefaultDatabaseService implements DatabaseService {
                 project.setUser(userEntity);
             }
 
+            // Map project details
             projectMapper.internalToEntity(gitProject, project);
             updatedProjects.add(project);
 
         });
 
+        // Replace the user's projects with the updated list
         userEntity.getProjects().clear();
         userEntity.getProjects().addAll(updatedProjects);
 

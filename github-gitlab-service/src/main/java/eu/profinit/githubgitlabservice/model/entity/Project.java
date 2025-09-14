@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
 
+/**
+ * Entity representing a Project associated with a User.
+ */
 @Entity
 @Table(name = "projects")
 @Data

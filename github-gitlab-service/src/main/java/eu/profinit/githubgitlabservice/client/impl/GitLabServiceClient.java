@@ -15,6 +15,9 @@ import reactor.core.publisher.Mono;
 
 import java.util.Optional;
 
+/**
+ * Client for interacting with the provided GitLab Service.
+ */
 @Slf4j
 @RequiredArgsConstructor
 public class GitLabServiceClient implements GitApiClient {
@@ -28,14 +31,14 @@ public class GitLabServiceClient implements GitApiClient {
     public Optional<GitUserWithProjects> getUserWithProjects(String username) {
         log.info("Getting user with projects for user with username '{}' from GitLab.", username);
 
-        // 1) fetch user with projects
+        // Fetch user with projects
         GitLabResponseDto user = getGitLabUserWithProjects(username);
 
         if (user == null) {
             return Optional.empty();
         }
 
-        // 2) map to an internal model
+        // Map to an internal model
         return Optional.of(userMapper.gitLabUserToInternal(user));
     }
 

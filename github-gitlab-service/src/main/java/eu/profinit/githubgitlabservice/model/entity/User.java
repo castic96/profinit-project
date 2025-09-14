@@ -6,6 +6,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Entity representing a User from a source (e.g., GitHub, GitLab).
+ */
 @Entity
 @Table(name = "users")
 @Data

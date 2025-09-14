@@ -19,6 +19,11 @@ import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Default implementation of the GitService interface.
+ * This service interacts with GitApiClients to fetch user data and projects from various Git-based services
+ * (e.g., GitHub, GitLab) and manages caching and persistence of this data in the database.
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -50,6 +55,7 @@ public class DefaultGitService implements GitService {
         // Resolve the username entity
         Username usernameEntity = databaseService.getUsername(username);
 
+        // Get user with projects, handling caching and persistence
         return getUserWithProjects(sourceEntity, usernameEntity);
     }
 
@@ -78,9 +84,11 @@ public class DefaultGitService implements GitService {
     }
 
     private Optional<GitUserWithProjects> fetchAndSaveUser(Username username, Source source, Optional<User> userEntityOpt) {
+        // Fetch user with projects from the appropriate Git API client
         GitApiClient gitApiClient = gitApiClients.get(source.getName());
         Optional<GitUserWithProjects> gitUserWithProjects = gitApiClient.getUserWithProjects(username.getName());
 
+        // If user is found, save or update the user entity in the database
         gitUserWithProjects.ifPresent(gitUser -> {
             User userEntity = userEntityOpt.orElseGet(() ->
                     databaseService.createNewUserEntity(username, source, gitUser.getGitId()));
