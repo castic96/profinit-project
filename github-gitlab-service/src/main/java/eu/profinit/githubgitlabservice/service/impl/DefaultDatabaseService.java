@@ -39,10 +39,12 @@ public class DefaultDatabaseService implements DatabaseService {
 
     @Override
     public Source getSource(SourceEnum source) {
+        log.debug("Getting source {}", source);
+
         Optional<Source> sourceEntity = sourceRepository.findByName(source);
 
         if (sourceEntity.isEmpty()) {
-            log.warn("Source entity not found in the database for source: {}", source);
+            log.error("Source entity not found in the database for source: {}", source);
             return null;
         }
 
@@ -51,6 +53,8 @@ public class DefaultDatabaseService implements DatabaseService {
 
     @Override
     public Username getUsername(String username) {
+        log.debug("Getting username {}", username);
+
         Optional<Username> usernameEntity = usernameRepository.findByName(username);
 
         // If the username does not exist, create a new one
@@ -64,6 +68,8 @@ public class DefaultDatabaseService implements DatabaseService {
 
     @Override
     public Optional<User> getUser(Username username, Source source) {
+        log.debug("Getting user for username: {} and source: {}", username.getName(), source.getName());
+
         return userRepository.findByUsernameAndSource(username, source);
     }
 
@@ -94,6 +100,8 @@ public class DefaultDatabaseService implements DatabaseService {
     }
 
     private void saveProjects(GitUserWithProjects gitUserWithProjects, User userEntity) {
+        log.info("Saving projects for user entity with username: {} and source: {}",
+                userEntity.getUsername().getName(), userEntity.getSource().getName());
 
         // Create a map of existing projects for easy lookup
         Map<Long, Project> existingProjects = userEntity.getProjects().stream()

@@ -29,7 +29,7 @@ public class GitLabServiceClient implements GitApiClient {
 
     @Override
     public Optional<GitUserWithProjects> getUserWithProjects(String username) {
-        log.info("Getting user with projects for user with username '{}' from GitLab.", username);
+        log.info("Trying to get user with projects for user with username '{}' from GitLab.", username);
 
         // Fetch user with projects
         GitLabResponseDto user = getGitLabUserWithProjects(username);
@@ -43,7 +43,7 @@ public class GitLabServiceClient implements GitApiClient {
     }
 
     private GitLabResponseDto getGitLabUserWithProjects(String username) {
-        log.info("Getting user with projects with username '{}' from GitLab.", username);
+        log.debug("Getting user with projects with username '{}' from GitLab.", username);
 
         return webClient.get()
                 .uri(GET_USER_WITH_PROJECTS_URI, username)

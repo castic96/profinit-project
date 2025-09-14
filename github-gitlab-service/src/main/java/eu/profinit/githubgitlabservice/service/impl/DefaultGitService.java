@@ -64,6 +64,9 @@ public class DefaultGitService implements GitService {
 
         // User not found in DB -> fetch from API and save
         if (userEntityOpt.isEmpty()) {
+            log.info("User not found in DB for username '{}' and source '{}'. Fetching from API.",
+                    usernameEntity.getName(), sourceEntity.getName());
+
             return fetchAndSaveUser(usernameEntity, sourceEntity, userEntityOpt);
         }
 
@@ -71,11 +74,20 @@ public class DefaultGitService implements GitService {
 
         // User found in DB but cache expired -> fetch from API and update
         if (isCacheExpired(userEntity)) {
-            Optional<GitUserWithProjects> gitUserWithProjects = fetchAndSaveUser(usernameEntity, sourceEntity, userEntityOpt);
+            log.info("Cache expired for user '{}' from source '{}'. Fetching updated data from API.",
+                    usernameEntity.getName(), sourceEntity.getName());
 
+            Optional<GitUserWithProjects> gitUserWithProjects =
+                    fetchAndSaveUser(usernameEntity, sourceEntity, userEntityOpt);
+
+            // If fetching from API was successful, return the updated data
+            // otherwise, return the stale cached data
             if (gitUserWithProjects.isPresent()) {
                 return gitUserWithProjects;
             }
+
+            log.warn("Failed to fetch updated data for user '{}' from source '{}'. Returning stale cache.",
+                    usernameEntity.getName(), sourceEntity.getName());
 
         }
 
@@ -84,6 +96,7 @@ public class DefaultGitService implements GitService {
     }
 
     private Optional<GitUserWithProjects> fetchAndSaveUser(Username username, Source source, Optional<User> userEntityOpt) {
+
         // Fetch user with projects from the appropriate Git API client
         GitApiClient gitApiClient = gitApiClients.get(source.getName());
         Optional<GitUserWithProjects> gitUserWithProjects = gitApiClient.getUserWithProjects(username.getName());

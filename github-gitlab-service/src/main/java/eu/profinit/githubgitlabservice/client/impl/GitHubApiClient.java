@@ -33,7 +33,7 @@ public class GitHubApiClient implements GitApiClient {
 
     @Override
     public Optional<GitUserWithProjects> getUserWithProjects(String username) {
-        log.info("Getting user with projects for user with username '{}' from GitHub.", username);
+        log.info("Trying to get user with projects for user with username '{}' from GitHub.", username);
 
         // Fetch user
         GitHubResponseDto user = getGitHubUser(username);
@@ -51,7 +51,7 @@ public class GitHubApiClient implements GitApiClient {
     }
 
     private GitHubResponseDto getGitHubUser(String username) {
-        log.info("Getting user with username '{}' from GitHub.", username);
+        log.debug("Getting user with username '{}' from GitHub.", username);
 
         return webClient.get()
                 .uri(GET_USER_URI, username)
@@ -67,7 +67,7 @@ public class GitHubApiClient implements GitApiClient {
     }
 
     private List<GitHubProjectResponseDto> getGitHubProjects(String username) {
-        log.info("Getting projects for user with username '{}' GitHub.", username);
+        log.debug("Getting projects for user with username '{}' GitHub.", username);
 
         return webClient.get()
                 .uri(GET_USER_REPOS_URI, username)
