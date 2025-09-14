@@ -25,6 +25,10 @@
                 <constraints nullable="false"/>
             </column>
 
+            <column name="git_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+
             <column name="name" type="varchar(255)"/>
 
             <column name="url" type="varchar(255)"/>

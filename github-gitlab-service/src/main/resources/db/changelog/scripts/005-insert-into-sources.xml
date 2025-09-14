@@ -8,11 +8,11 @@
     <changeSet id="scripts/005-insert-into-sources" author="Zdenek Castoral">
 
         <insert tableName="sources">
-            <column name="name" value="github"/>
+            <column name="name" value="GITHUB"/>
         </insert>
 
         <insert tableName="sources">
-            <column name="name" value="gitlab"/>
+            <column name="name" value="GITLAB"/>
         </insert>
 
     </changeSet>
