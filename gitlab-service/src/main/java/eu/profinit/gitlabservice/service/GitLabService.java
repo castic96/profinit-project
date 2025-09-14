@@ -38,13 +38,12 @@ public class GitLabService {
       if (Instant.now().getEpochSecond() - user.get().getUpdated().getEpochSecond() > CACHE_TIME_30_SECONDS) {
         return refreshDatabaseCache(username);
       } else {
-        new UserWithProjects(
+        return new UserWithProjects(
                 user.get(), databaseService.getProjects(username), SDF.format(new Date()));
       }
     } else {
       return refreshDatabaseCache(username);
     }
-    return null;
   }
 
   @Transactional

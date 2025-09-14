@@ -83,12 +83,16 @@ public interface UserMapper {
             return Instant.parse(lastUpdate)
                     .atZone(ZoneId.systemDefault())
                     .toLocalDateTime();
-        } catch (DateTimeParseException ignored) {}
+        } catch (DateTimeParseException ignored) {
+            // Ignored: try next format
+        }
 
         try {
             DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
             return LocalDateTime.parse(lastUpdate, inputFormatter);
-        } catch (DateTimeParseException ignored) {}
+        } catch (DateTimeParseException ignored) {
+            // Ignored: try next format
+        }
 
         return LocalDateTime.now();
     }

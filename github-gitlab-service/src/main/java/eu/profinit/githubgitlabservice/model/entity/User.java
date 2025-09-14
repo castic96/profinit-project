@@ -3,10 +3,12 @@ package eu.profinit.githubgitlabservice.model.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
-@Data // TODO: mozna tam misto toho dat @Getter a @Setter, aby to nevytvarelo konstruktor s vsema parametry
+@Data
 public class User {
 
     @Id
@@ -21,6 +23,12 @@ public class User {
     @JoinColumn(name = "source_id", nullable = false)
     private Source source;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Project> projects = new ArrayList<>();
+
+    @Column(nullable = false)
+    private Long gitId;
+
     @Column
     private String name;
 
@@ -30,5 +38,5 @@ public class User {
     private LocalDateTime lastUpdate;
 
     @Column(name = "_created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 }

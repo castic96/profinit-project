@@ -1,5 +1,6 @@
 package eu.profinit.githubgitlabservice.model.entity;
 
+import eu.profinit.githubgitlabservice.model.enums.SourceEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,9 +16,10 @@ public class Source {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private SourceEnum name;
 
     @Column(name = "_created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
 }

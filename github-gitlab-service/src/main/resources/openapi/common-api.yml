@@ -50,21 +50,27 @@ components:
       type: object
       description: Array of all events.
       properties:
-        github:
-          $ref: '#/components/schemas/GitProperties'
-        gitlab:
-          $ref: '#/components/schemas/GitProperties'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/GitProperties'
 
     GitProperties:
       type: object
       description: Git properties.
       properties:
-        id:
+        source:
           type: string
-          description: User ID.
+          description: Git source (e.g., GitHub, GitLab).
+        id:
+          type: integer
+          description: User ID in git source.
         username:
           type: string
           description: Username of the git user.
+        lastUpdate:
+          type: string
+          description: Last update timestamp.
         repositories:
           type: array
           description: List of git repositories for the user.
@@ -72,7 +78,7 @@ components:
             type: object
             properties:
               id:
-                type: string
+                type: integer
                 description: Repository ID.
               name:
                 type: string
@@ -81,6 +87,7 @@ components:
               - id
               - name
       required:
+        - source
         - id
         - username
 

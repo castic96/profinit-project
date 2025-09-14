@@ -18,6 +18,6 @@ public class Username {
     private String name;
 
     @Column(name = "_created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
 }

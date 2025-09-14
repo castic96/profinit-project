@@ -17,6 +17,9 @@ public class Project {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Column(nullable = false)
+    private Long gitId;
+
     @Column
     private String name;
 
@@ -27,5 +30,5 @@ public class Project {
     private String url;
 
     @Column(name = "_created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 }
