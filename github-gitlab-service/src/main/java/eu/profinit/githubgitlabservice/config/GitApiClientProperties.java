@@ -4,12 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = "git")
 @Getter
+@Setter
+@ConfigurationProperties(prefix = "git")
 public class GitApiClientProperties {
 
-    private final GitLab gitLab = new GitLab();
-    private final GitHub gitHub = new GitHub();
+    private GitLab gitlab;
+    private GitHub github;
 
     @Setter
     @Getter

@@ -25,7 +25,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class DefaultUserService implements UserService {
 
-    private final GitService databaseService;
+    private final GitService gitService;
     private final UserMapper userMapper;
 
     @Override
@@ -54,7 +54,7 @@ public class DefaultUserService implements UserService {
         log.info("Trying to get user {} from source: {}", username, source.toString());
 
         // Retrieve user from the database service for the given source
-        return databaseService.getUserForSource(username, source);
+        return gitService.getUserForSource(username, source);
     }
 
 }

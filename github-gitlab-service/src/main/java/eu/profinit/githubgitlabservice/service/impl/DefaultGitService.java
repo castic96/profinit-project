@@ -34,7 +34,7 @@ public class DefaultGitService implements GitService {
     private final UserMapper userMapper;
 
     @Value("${cache.ttl-seconds}")
-    private int cacheTtlSeconds;
+    private int cacheTtlSeconds = 30; // Default to 30 seconds if not set
 
     @Override
     @Transactional
@@ -118,7 +118,7 @@ public class DefaultGitService implements GitService {
 
     private boolean isSourceValid(SourceEnum source) {
         if (!gitApiClients.containsKey(source)) {
-            log.error("No GitApiClient found for source: {}", source);
+            log.error("No Git API client found for source: {}", source);
             return false;
         }
         return true;

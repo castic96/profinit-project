@@ -21,16 +21,16 @@ public class GitApiClientConfig {
     @Bean("gitLabWebClient")
     public WebClient gitLabWebClient(WebClient.Builder builder, GitApiClientProperties gitApiClientProperties) {
         return builder
-                .baseUrl(gitApiClientProperties.getGitLab().getBaseUrl())
-                .defaultHeader(HttpHeaders.ACCEPT, gitApiClientProperties.getGitLab().getAccept())
+                .baseUrl(gitApiClientProperties.getGitlab().getBaseUrl())
+                .defaultHeader(HttpHeaders.ACCEPT, gitApiClientProperties.getGitlab().getAccept())
                 .build();
     }
 
     @Bean("gitHubWebClient")
     public WebClient gitHubWebClient(WebClient.Builder builder, GitApiClientProperties gitApiClientProperties) {
         return builder
-                .baseUrl(gitApiClientProperties.getGitHub().getBaseUrl())
-                .defaultHeader(HttpHeaders.ACCEPT, gitApiClientProperties.getGitHub().getAccept())
+                .baseUrl(gitApiClientProperties.getGithub().getBaseUrl())
+                .defaultHeader(HttpHeaders.ACCEPT, gitApiClientProperties.getGithub().getAccept())
                 .build();
     }
 

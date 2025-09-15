@@ -1,0 +1,43 @@
+version: "3.8"
+services:
+  gitlab-service:
+    build:
+      context: ./gitlab-service
+      dockerfile: Dockerfile
+    container_name: gitlab-service-local
+    ports:
+      - "8086:8086"
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:mysql://mysql:3306/gitlab_service"
+      SPRING_DATASOURCE_USERNAME: "root"
+      SPRING_DATASOURCE_PASSWORD: "password"
+    depends_on:
+      - mysql
+
+  mysql:
+    container_name: mysql-local
+    image: mysql:8.0.30
+    ports:
+      - "3306:3306"
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: "password"
+      MYSQL_DATABASE: "gitlab_service"
+    volumes:
+      - ./gitlab-service/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  postgres:
+    image: postgres:15
+    container_name: postgres-local
+    hostname: postgres-local
+    ports:
+      - "5437:5437"
+    environment:
+      POSTGRES_DB: "github_gitlab_service"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    volumes:
+      - github-gitlab-data:/var/lib/postgresql/data
+
+volumes:
+  github-gitlab-data:

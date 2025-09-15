@@ -9,6 +9,8 @@ spring:
     driverClassName: org.postgresql.Driver
     username: "postgres"
     password: "postgres"
+    hikari:
+      initialization-fail-timeout: 60000
   jpa:
     hibernate:
       ddl-auto: none
